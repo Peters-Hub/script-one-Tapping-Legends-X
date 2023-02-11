@@ -1,0 +1,140 @@
+if game.PlaceId == 8750997647 then
+local PetersHub = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = PetersHub:MakeWindow({Name = "Peters Hub - Tapping Legends X", HidePremium = false, IntroEnabled = true , IntroText = "Welcome to Peters Hub",  SaveConfig = false, ConfigFolder = "PetersHubConfig"})
+
+--Values
+_G.autoTap = true
+_G.autoRebirth = true
+_G.autoHatch = true
+_G.selectEgg = "Basic Egg"
+_G.autoEquip = true
+
+
+--Fuctions
+
+function autoTap()
+	while _G.autoTap == true do
+		game:GetService("ReplicatedStorage").Remotes.Tap:FireServer()
+		wait(.000001)
+	 end
+	end
+
+function autoRebirth()
+	while _G.autoRebirth == true do
+		game:GetService("ReplicatedStorage").Remotes.Rebirth:FireServer(1)
+		wait(1)
+	 end
+	end
+
+function autoHatch()
+	while _G.autoHatch == true do
+		game:GetService("ReplicatedStorage").Remotes.BuyEgg:InvokeServer(_G.selectEgg,1)
+		wait(.000000000000000000000000000000000000000000000000001)
+	 end
+	end
+
+function equipBest()
+	game:GetService("ReplicatedStorage").Remotes.EquipBest:InvokeServer()
+end
+
+function unequipAll()
+	game:GetService("ReplicatedStorage").Remotes.UnequipAll:InvokeServer()
+end
+
+function autoEquipBest()
+	while _G.autoEquipBest == true do
+	game:GetService("ReplicatedStorage").Remotes.UnequipAll:InvokeServer()
+	game:GetService("ReplicatedStorage").Remotes.EquipBest:InvokeServer()
+	wait(60)
+end
+end
+
+-- Tabs
+
+local FarmTab = Window:MakeTab({
+	Name = "AutoFarm",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local EggsTab = Window:MakeTab({
+	Name = "Eggs",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local MiscTab = Window:MakeTab({
+	Name = "Misc",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+--Toggles
+
+FarmTab:AddToggle({
+	Name = "Enable Auto Farm!",
+	Default = false,
+	Callback = function(Value)
+		_G.autoTap = Value
+		autoTap()
+	end    
+})
+
+FarmTab:AddToggle({
+	Name = "Enable Auto Rebirth!",
+	Default = false,
+	Callback = function(Value)
+		_G.autoRebirth = Value
+		autoRebirth()
+	end    
+})
+
+EggsTab:AddLabel("NOTICE: You need to be near the egg in order to work!")
+
+EggsTab:AddToggle({
+	Name = "Enable Auto Hatch!",
+	Default = false,
+	Callback = function(Value)
+		_G.autoHatch = Value
+		autoHatch()
+	end    
+})
+
+MiscTab:AddToggle({
+	Name = "Auto Equip Best Pets",
+	Default = false,
+	Callback = function(Value)
+		_G.autoEquipBest = Value
+		autoEquipBest()
+	end    
+})
+
+MiscTab:AddButton({
+	Name = "Equip Best Pet",
+	Callback = function(Value)
+			equipBest() 
+	end    
+})
+
+MiscTab:AddButton({
+	Name = "Unequip All",
+	Callback = function(Value)
+			unequipAll() 
+	end    
+})
+
+-- Dropodowns
+
+EggsTab:AddDropdown({
+	Name = "Select Egg",
+	Default = "Basic Egg",
+	Options = {"Basic Egg", "Rare Egg"},
+	Callback = function(Value)
+		_G.selectEgg = Value
+		print(_G.selectEgg)
+	end    
+})
+
+
+end
+PetersHub:Init()
